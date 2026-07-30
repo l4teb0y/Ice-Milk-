@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 
 const STAGE_TIMING = [150, 420, 680] // ms at which each check line appears
-const TOTAL_DURATION = 2500
+const TOTAL_DURATION = 2800
 
 function CheckLine({ children, visible }) {
   return (
@@ -60,8 +60,8 @@ export default function ValidationPopup({ eligibleCount, onDone }) {
         </p>
         <ul className="flex flex-col gap-3">
           <CheckLine visible={stage >= 1}>تم تحميل المشاركين</CheckLine>
-          <CheckLine visible={stage >= 2}>الأرقام المكررة مسموحة</CheckLine>
-          <CheckLine visible={stage >= 3}>عدد المشاركين: {eligibleCount}</CheckLine>
+          <CheckLine visible={stage >= 2}>فلترة الأرقام المكررة</CheckLine>
+          <CheckLine visible={stage >= 3}>عدد المشاركين : {eligibleCount}</CheckLine>
         </ul>
       </motion.div>
     </motion.div>
