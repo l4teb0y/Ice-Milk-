@@ -11,6 +11,7 @@ import { pickRandomWinner } from './utils/draw'
 
 const TOTAL_WINNERS = 10
 const REVEAL_DURATION = 2000
+const GUARANTEED_WINNER_ID = 2
 
 export default function App() {
   // Every comment is a separate entry. Duplicate numbers are intentional and
@@ -24,6 +25,9 @@ export default function App() {
 
   const wonIdsRef = useRef(new Set())
   const revealTimerRef = useRef(null)
+  // Reserve one random winner slot for Assem. His position changes every time
+  // the draw is restarted, but he is always included in the final winners.
+  const guaranteedWinnerIndexRef = useRef(Math.floor(Math.random() * TOTAL_WINNERS))
 
   const eligibleRemaining = useMemo(
     () => eligible.filter((p) => !wonIdsRef.current.has(p.id)),
@@ -33,7 +37,13 @@ export default function App() {
   )
 
   const handleStartClick = () => {
-    const nextWinner = pickRandomWinner(eligibleRemaining, wonIdsRef.current)
+    const shouldGuaranteeWinner =
+      winners.length === guaranteedWinnerIndexRef.current &&
+      !wonIdsRef.current.has(GUARANTEED_WINNER_ID)
+    const guaranteedWinner = eligibleRemaining.find((p) => p.id === GUARANTEED_WINNER_ID)
+    const nextWinner = shouldGuaranteeWinner && guaranteedWinner
+      ? guaranteedWinner
+      : pickRandomWinner(eligibleRemaining, wonIdsRef.current)
     if (!nextWinner) return
     setCurrentWinner(nextWinner)
     setPhase('validating')
@@ -51,6 +61,7 @@ export default function App() {
 
   const handleRestart = () => {
     wonIdsRef.current = new Set()
+    guaranteedWinnerIndexRef.current = Math.floor(Math.random() * TOTAL_WINNERS)
     setWinners([])
     setCurrentWinner(null)
     setPhase('idle')
