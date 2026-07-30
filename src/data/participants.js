@@ -35,4 +35,5 @@ export const participants = [
   { id: 30, name: 'Yomna Moustafa', number: 5, flavor: 'لوتس' },
   { id: 31, name: 'Naglaa Essa', number: 3, flavor: 'كراميل' },
   { id: 32, name: 'Reham Elazaz', number: 20, flavor: 'لوتس' },
+  { id: 33, name: 'Nody Essam', number: 19, flavor: 'نوتيلا' },
 ]
